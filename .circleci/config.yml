@@ -83,7 +83,7 @@ jobs:
           keys: [frontend-build]
       # Your job code here
       - run:
-          name: Test front-end
+          name: Run frontend tests
           command: |
             cd frontend
             npm run test
@@ -100,7 +100,7 @@ jobs:
           keys: [backend-build]
       # Your job code here
       - run:
-          name: Test back-end
+          name: Run backend tests
           command: |
             cd backend
             npm run test
