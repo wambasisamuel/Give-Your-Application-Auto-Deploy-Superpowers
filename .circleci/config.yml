@@ -117,10 +117,12 @@ jobs:
           keys: [frontend-build]
       # Your job code here
       - run:
-          name: Scan frontend
+          name: Scan frontend dependencies
           command: |
             cd frontend
             npm install
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
   scan-backend:
@@ -135,10 +137,12 @@ jobs:
           keys: [backend-build]
       # Your job code here
       - run:
-          name: Scan backend
+          name: Scan backend dependencies
           command: |
             cd backend
             npm install
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
             ##
             ##  deploy-infrastructure:
