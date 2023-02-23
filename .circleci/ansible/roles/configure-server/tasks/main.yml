@@ -1,0 +1,24 @@
+---
+- name: "Update and upgrad packages"
+  become: yes
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+- name: "Remove unwanted dependencies"
+  become: yes
+  apt:
+    autoremove: yes
+- name: "Install NodeJS and npm"
+  become: yes
+  apt:
+    name: ['nodejs', 'npm']
+    state: latest
+    update_cache: yes
+- name: "Install pm2"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    state: latest
+    production: yes
