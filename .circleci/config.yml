@@ -5,7 +5,7 @@ commands:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       # Add parameter here
-      worflow_id:
+      workflow_id:
         type: string
         default: ${CIRCLE_WORKFLOW_ID:0:7} 
     steps:
@@ -14,11 +14,11 @@ commands:
           when: on_fail
           command: |
             # Your code here
-            aws s3 rm s3://udapeople-<<parameters.worflow_id>> --recursive
+            aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack \
-            --stack-name "udapeople-backend-<< parameters.worflow_id >>"
+            --stack-name "udapeople-backend-<< parameters.workflow_id >>"
             aws cloudformation delete-stack \
-            --stack-name "udapeople-frontend-<< parameters.worflow_id >>"
+            --stack-name "udapeople-frontend-<< parameters.workflow_id >>"
             # exit 1
 
   revert-migrations:
@@ -35,7 +35,7 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS=$(curl -k https://kvdb.io/47dc6uVSZS9kN2uAQ1WKXG/migration_<<workflow_id>>)
+            SUCCESS=$(curl -k https://kvdb.io/47dc6uVSZS9kN2uAQ1WKXG/migration_<<parameters.workflow_id>>)
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
