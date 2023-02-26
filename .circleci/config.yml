@@ -420,6 +420,9 @@ jobs:
 
             echo OldWorkflowID: "${OldWorkflowID}"
             echo Current WorkflowID: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - persist_to_workspace:
+          root: ~/
+          paths: OldWorkflowID.txt
       # Here's where you will add some code to rollback on failure
       - destroy-environment
       - revert-migrations
@@ -430,13 +433,17 @@ jobs:
       - image: amazon/aws-cli
     steps:
       # Checkout code from git
+      - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Get old stack workflow id
           command: |
             # your code here
-            export OldWorkflowID=$(aws cloudformation \
-                    list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-                    --no-paginate --output text)
+            export OldWorkflowID=$(cat OldWorkflowID.txt)
+            # export OldWorkflowID=$(aws cloudformation \
+            #        list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            #        --no-paginate --output text)
             echo OldWorkflowID: "${OldWorkflowID}"
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
 
