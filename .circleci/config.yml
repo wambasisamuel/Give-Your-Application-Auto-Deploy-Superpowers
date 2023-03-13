@@ -231,6 +231,12 @@ jobs:
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
             # exit 1
+      - run:
+          name: Setup Prometheus Node exporter
+          command: |
+            # Your code here
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt node-exporter.yml
       # Here's where you will add some code to rollback on failure      
       - destroy-environment
             ##
